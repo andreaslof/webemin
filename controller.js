@@ -16,11 +16,20 @@ $(window).ready(function(){
       if (client.role === 'host') {
         webemin.init();
         webemin.start();
-        webemin.setVolume(1);
+        webemin.setVolume(0);
         client.gotValues = function(data) {
           data = JSON.parse(data);
+          
+          var vol = (Math.abs(data.z) / 180) * -1;
+          if (vol > 1)
+            vol = Math.ceil(vol);
+
+          var detune = parseInt((data.y + data.z), 10);
+          console.log(detune);
+
           webemin.setFrequency((data.y * 10) + 200);
-          console.log(data);
+          webemin.setVolume(vol);
+          webemin.detune(detune);
         };
       }
     };
