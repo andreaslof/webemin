@@ -45,5 +45,11 @@ var webemin = {
   setFrequency: function(freq) {
     webemin.frequency = freq;
     webemin._ocsillator.frequency.value = freq;
+  },
+  setType: function(type) {
+    webemin._ocsillator.type = type;
+  },
+  setVolume: function(vol) {
+    webemin._gainNode.gain.value = vol;
   }
 };
