@@ -22,6 +22,7 @@ var webemin = {
     webemin._gainNode = webemin._context.createGainNode();
     webemin._ocsillator.connect(webemin._gainNode);
     webemin._ocsillator.frequency.value = webemin.frequency;
+    webemin._ocsillator.type = 0;
     webemin._gainNode.connect(webemin._context.destination);
     webemin._gainNode.gain.value = 0; // 0 volume
     webemin._init = true;
