@@ -33,7 +33,18 @@ $(window).ready(function(){
             init = true;
           }
           data = JSON.parse(data);
-          webemin.setFrequency((data.y * 10) + 200);
+          msg = JSON.parse(data.msg);
+          
+          if (data.id == 1)
+            webemin.setFrequency((msg.y * 10) + 200);
+          if (data.id == 2) {
+            var vol = ((msg.z*2) / 90);
+            if (vol < 0)
+              vol = 0;
+            if (vol > 1)
+              vol = 1;
+            webemin.setVolume(vol);
+          }
         };
       }
     };
