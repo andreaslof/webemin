@@ -7,7 +7,8 @@ var app = require('http').createServer(handler),
 
 app.listen(8082, '10.48.19.129');
 
-function handler (req, res) {  
+function handler (req, res) { 
+  var html = false; 
   switch (req.url) {
     case '/gyro.js':
       fs.readFile(__dirname + '/gyro.js', returnFile);
@@ -22,6 +23,7 @@ function handler (req, res) {
       fs.readFile(__dirname + '/webemin.js', returnFile);
       break;
     default:
+      html = true;
       fs.readFile(__dirname + '/index.html', returnFile);
       break;
   }
@@ -34,21 +36,22 @@ function handler (req, res) {
     }
 
     res.writeHead(200);
+    if (!html)
+      res.writeHead(200, { 'Content-Type': 'text/javascript' });
     res.end(data);
   }
 }
 
 var c = 0;
 io.sockets.on('connection', function (socket) {
-  socket.emit('connect', { client: c++ });
-
+  socket.emit('connect', { client: c });
   socket.on('message', function (msg) {
     switch (socket['role']) {
       case 'controller':
-        sendTo('host', msg);
+        sendTo('host', msg, socket);
         break;
       case 'host':
-        sendTo('controller', msg);
+        sendTo('controller', msg, socket);
         break;
     }
   });
@@ -56,17 +59,18 @@ io.sockets.on('connection', function (socket) {
   socket.on('setRole', function (data) {
     if (typeof socket['role'] !== 'undefined')
       return;
-
+    if (data.role === 'controller')
+      socket.cid = io.sockets.clients().indexOf(socket);
     socket['role'] = data.role;
     socket.emit('setRole', { role: data.role });
   });
 });
 
-function sendTo (receiver, msg) {
+function sendTo (receiver, msg, sender) {
   var clients = io.sockets.clients();
   for (var client in clients) {
     if (clients[client]['role'] === receiver) {
-      clients[client].send(msg);
+      clients[client].send(JSON.stringify({id: sender.cid, msg: msg}));
     }
   }
 }
