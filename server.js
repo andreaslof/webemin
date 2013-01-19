@@ -7,8 +7,11 @@ var app = require('http').createServer(handler),
 
 app.listen(8082);
 
-function handler (req, res) {
+function handler (req, res) {  
   switch (req.url) {
+    case '/client.js':
+      fs.readFile(__dirname + '/client.js', returnFile);
+      break;
     case '/webemin.js':
       fs.readFile(__dirname + '/webemin.js', returnFile);
       break;
@@ -16,6 +19,7 @@ function handler (req, res) {
       fs.readFile(__dirname + '/index.html', returnFile);
       break;
   }
+  
 
   function returnFile(err, data) {
     if (err) {
@@ -30,8 +34,12 @@ function handler (req, res) {
 
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.on('host', function (data) {
     console.log(data);
+    socket.emit('response', { host: 'connected'});
+  });
+  socket.on('controller', function (data) {
+    console.log(data);
+    socket.emit('response', { controller: 'connected'});
   });
 });
