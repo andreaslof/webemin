@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>webemin</title>
+  <style>
+    a {
+      display: inline-block;
+      float: left;
+      height: auto;
+      margin: 12px;
+      width: auto;
+    }
+
+    a span {
+      background: #333;
+      color: #fff;
+      display: block;
+      padding: 12px;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <a data-ctrl="connect-host" href="#"><span>CONNECT HOST</span></a>
+  <a data-ctrl="connect-ctrl" href="#"><span>CONNECT CONTROLLER</span></a>
+  <a data-ctrl="play" href="#"><span>PLAY</span></a>
+  <a data-ctrl="stop" href="#"><span>STOP</span></a>
+  <a data-ctrl="wobble" href="#"><span>WOBBLE</span></a>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/webemin.js"></script>
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>
+</body>
+</html>

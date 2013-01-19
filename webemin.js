@@ -2,7 +2,7 @@
  * © 2013 Andreas Hermansson, a@andreaslof.se
  * */
 
- (function (windonw, undefined) {
+ (function (window, undefined) {
   const LOWEST_FREQ   = 120,
         HIGHEST_FREQ  = 1000,
         SINE          = 0,
@@ -12,7 +12,7 @@
 
   var context     = new webkitAudioContext(),
       oscillator  = context.createOscillator(),
-      gainNode        = context.createGainNode(),
+      gainNode    = context.createGainNode(),
       controls    = document.getElementsByTagName('a');
 
   oscillator.connect(gainNode);
@@ -27,8 +27,8 @@
 
   function toggleAudio (e) {
     e.preventDefault();
-    
-    switch (e.target.getAttribute('data-ctrl')) {
+
+    switch (e.target.parentElement.getAttribute('data-ctrl')) {
       case 'play':
         if (oscillator.playbackState === 0)
           oscillator.start(0);
@@ -37,6 +37,13 @@
       case 'stop':
         gainNode.gain.value = 0;
         break;
+      case 'wobble':
+        wobble(50, 5);
+        break;
     }
+  }
+
+  function wobble (hz, count) {
+    
   }
  })(window);
