@@ -1,4 +1,10 @@
 $(window).ready(function(){
+  $('input[type=range]').on('change', function (e) {
+    var type = +e.target.value;
+
+    if (webemin.isPlaying)
+      webemin.setType(type);
+  });
   $('a.connect-host, a.connect-ctrl').click(function(e){
     e.preventDefault();
     client.init('http://10.48.19.129');
@@ -38,10 +44,11 @@ $(window).ready(function(){
           data = JSON.parse(data);
           msg = JSON.parse(data.msg);
           
-          var detune = parseInt((msg.y + msg.z), 10);
-          
-          if (data.id == 1)
+          if (data.id == 1) {
+            var detune = parseInt((msg.y + msg.z), 10); 
             webemin.setFrequency((msg.y * 10) + 200);
+            webemin.detune(detune);
+          }
           if (data.id == 2) {
             var vol = ((msg.z*2) / 90);
             if (vol < 0)
@@ -50,8 +57,6 @@ $(window).ready(function(){
               vol = 1;
             webemin.setVolume(vol);
           }
-
-          webemin.detune(detune);
         };
       }
     };
