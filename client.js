@@ -3,6 +3,8 @@
 var client = {
   socket: null,
   role: null,
+  gotValues: null,
+  ready: null,
   init: function (url) {
     client.socket = io.connect(url);
     client.socket.on('connect', client.handleResponse);
@@ -16,14 +18,15 @@ var client = {
     client.socket.emit('setRole', { role: 'controller' });
   },
   handleResponse: function (data) {
-    console.log(data);
+    if (client.gotValues)
+      client.gotValues(data);
   },
   getRole: function (data) {
     client.role = data.role;
+    if (client.ready)
+      client.ready();
   },
   send: function (data) {
     client.socket.send(data);
   }
-}
-
-client.init('http://10.48.19.129');
+};

@@ -5,13 +5,16 @@ var app = require('http').createServer(handler),
     fs = require('fs'),
     connections = 0;
 
-app.listen(8082, '10.48.19.129');
+app.listen(8082, '10.48.18.64');
 
 function handler (req, res) {  
   switch (req.url) {
     case '/gyro.js':
       fs.readFile(__dirname + '/gyro.js', returnFile);
       break;
+      case '/controller.js':
+        fs.readFile(__dirname + '/controller.js', returnFile);
+        break;
     case '/client.js':
       fs.readFile(__dirname + '/client.js', returnFile);
       break;
