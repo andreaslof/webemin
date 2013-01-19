@@ -32,7 +32,7 @@ var webemin = {
       webemin.init();
     }
     if (!webemin.isPlaying) {
-      webemin._ocsillator.start(0);
+      webemin._ocsillator.noteOn(0);
       webemin.isPlaying = true;
     }
     webemin._gainNode.gain.value = 1;
