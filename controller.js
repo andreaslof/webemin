@@ -14,10 +14,27 @@ $(window).ready(function(){
         };
       }
       if (client.role === 'host') {
+        $('.play, .stop').click(function(e){
+          e.preventDefault();
+          if ($(this)[0] === $('.stop')[0]) {
+            webemin.setVolume(0);
+            Gyro.stopTracking();
+          } else {
+            webemin.setVolume(1);
+            Gyro.startTracking();
+          }
+        });
         webemin.init();
         webemin.start();
         webemin.setVolume(0);
+
+        var init = false;
         client.gotValues = function(data) {
+          if (!init) {
+            webemin.setVolume(0.5);
+            init = true;
+          }
+          
           data = JSON.parse(data);
           
           var vol = (Math.abs(data.z) / 180) * -1;
@@ -25,7 +42,6 @@ $(window).ready(function(){
             vol = Math.ceil(vol);
 
           var detune = parseInt((data.y + data.z), 10);
-          console.log(detune);
 
           webemin.setFrequency((data.y * 10) + 200);
           webemin.setVolume(vol);
