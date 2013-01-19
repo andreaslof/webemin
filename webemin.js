@@ -38,7 +38,6 @@ var webemin = {
   },
   stop: function() {
     if (webemin.isPlaying) {
-      //webemin._ocsillator.stop(0);
       webemin.isPlaying = false;
     }
     webemin._gainNode.gain.value = 0;
