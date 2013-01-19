@@ -1,3 +1,7 @@
+/* webemin - a gyro-controlled theremin
+ * © 2013 Andreas Hermansson, a@andreaslof.se
+ * © 2013 Simon Westerlund, s@simonwesterlund.se
+ * */
 var webemin = {
   frequency: 440, // default
   type: 0, // sine
@@ -33,7 +37,7 @@ var webemin = {
       webemin.init();
     }
     if (!webemin.isPlaying) {
-      webemin._ocsillator.noteOn(0);
+      webemin._ocsillator.start(0);
       webemin.isPlaying = true;
     }
   },
