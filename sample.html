@@ -19,12 +19,16 @@
           Gyro.startTracking();
         } else {
           webemin.stop();
-          Gyro.stop Tracking();
+          Gyro.stopTracking();
         }
       });
       Gyro.callback = function(xyz) {
-        webemin.setFrequency((xyz.z * 10) + 100);
-        console.log((xyz.z * 10) + 100);
+        webemin.setFrequency((xyz.z * 10) + 300);
+        var vol = xyz.y / 45;
+        if (vol > 1)
+          vol = 1;
+        webemin.setVolume(vol);
+        console.log(vol);
       }
       webemin.init();
     });
