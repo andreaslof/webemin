@@ -2,8 +2,8 @@ var WS = {
   connected: false,
   websocket: null,
   onmessage: null,
-  connect: function(callback) {
-    WS.websocket = new WebSocket('ws://echo.websocket.org');
+  connect: function(url, callback) {
+    WS.websocket = new WebSocket(url);
     WS.websocket.onopen = function() {
       WS.connected = true;
       if (callback)
