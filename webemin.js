@@ -48,12 +48,11 @@ var webemin = {
   },
   setFrequency: function (freq) {
     webemin.frequency = parseInt(freq, 10);
-    webemin._oscillator.frequency.value = freq;
+    webemin._oscillator.frequency.value = webemin.frequency;
   },
   detune: function (freq) {
     webemin.tuning = freq;
     webemin._oscillator.detune.value = webemin.tuning;
-    console.log(webemin.tuning);
   },
   setType: function (type) {
     webemin._oscillator.type = type;
