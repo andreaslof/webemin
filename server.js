@@ -5,10 +5,13 @@ var app = require('http').createServer(handler),
     fs = require('fs'),
     connections = 0;
 
-app.listen(8082);
+app.listen(8082, '10.48.19.129');
 
 function handler (req, res) {  
   switch (req.url) {
+    case '/gyro.js':
+      fs.readFile(__dirname + '/gyro.js', returnFile);
+      break;
     case '/client.js':
       fs.readFile(__dirname + '/client.js', returnFile);
       break;
@@ -32,14 +35,35 @@ function handler (req, res) {
   }
 }
 
-
+var c = 0;
 io.sockets.on('connection', function (socket) {
-  socket.on('host', function (data) {
-    console.log(data);
-    socket.emit('response', { host: 'connected'});
+  socket.emit('connect', { client: c++ });
+
+  socket.on('message', function (msg) {
+    switch (socket['role']) {
+      case 'controller':
+        sendTo('host', msg);
+        break;
+      case 'host':
+        sendTo('controller', msg);
+        break;
+    }
   });
-  socket.on('controller', function (data) {
-    console.log(data);
-    socket.emit('response', { controller: 'connected'});
+
+  socket.on('setRole', function (data) {
+    if (typeof socket['role'] !== 'undefined')
+      return;
+
+    socket['role'] = data.role;
+    socket.emit('setRole', { role: data.role });
   });
 });
+
+function sendTo (receiver, msg) {
+  var clients = io.sockets.clients();
+  for (var client in clients) {
+    if (clients[client]['role'] === receiver) {
+      clients[client].send(msg);
+    }
+  }
+}
