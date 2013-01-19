@@ -14,13 +14,26 @@ $(window).ready(function(){
         };
       }
       if (client.role === 'host') {
+        $('.play, .stop').click(function(e){
+          e.preventDefault();
+          if ($(this)[0] === $('.stop')[0]) {
+            webemin.setVolume(0);
+            Gyro.stopTracking();
+          } else {
+            webemin.setVolume(1);
+            Gyro.startTracking();
+          }
+        });
         webemin.init();
         webemin.start();
-        webemin.setVolume(1);
+        var init = false;
         client.gotValues = function(data) {
+          if (!init) {
+            webemin.setVolume(1);
+            init = true;
+          }
           data = JSON.parse(data);
           webemin.setFrequency((data.y * 10) + 200);
-          console.log(data);
         };
       }
     };
