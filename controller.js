@@ -28,7 +28,7 @@ function whatNote(freq) {
       x += 2;
     }
   }
-  return note + oct;
+  return {note: note + oct, cents: cents};
 }
 
 $(window).ready(function(){
@@ -78,8 +78,12 @@ $(window).ready(function(){
             init = true;
           }
 
-          data = JSON.parse(data);
-          msg = JSON.parse(data.msg);
+          try {
+            data = JSON.parse(data);
+            msg = JSON.parse(data.msg);
+          } catch (e) {
+            return;
+          }
 
           var freq = (msg.y * 10) + (32.70 - 5.0);
           var vol = ((msg.z * 2) / 90);
@@ -87,6 +91,11 @@ $(window).ready(function(){
           if (Math.round(freq) < 20)
             return;
           
+          var note = whatNote(webemin.frequency);
+          var freq = (msg.y * 10) + (32.70 - 5.0);
+          var detune = parseInt((msg.y + msg.z), 10); 
+          var vol = ((msg.z*2) / 90);
+
           if (vol < 0)
             vol = 0;
           if (vol > 1)
@@ -103,9 +112,9 @@ $(window).ready(function(){
           b = b > 255 ? 255 : b;
           b = b < 0 ? 0 : b;
 
-
           canvas.drawBackground(vol, [r, g, b]);
-          canvas.drawNote(whatNote(webemin.frequency));
+          canvas.drawNote(note.note);
+          canvas.bend(note.cents * 4);
 
           webemin.setFrequency(freq);
           webemin.setVolume(vol);
