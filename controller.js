@@ -18,20 +18,22 @@ function whatNote(freq) {
     cents -= 1200;
     oct++;
   } else {
-    for (var i = 0; i < 11; i++) {
+    for (var i = 1; i <= 11; i++) {
       if (cents >= offset && cents < (offset + 100)) {
-        note = notes[x] + notes[x + 1];
-        cents -= i * 100;
+        note = notes.charAt(x) + notes.charAt(x + 1);
+        cents -= (i * 100);
         break;
       }
-      offset += 200;
+      offset += 100;
       x += 2;
     }
   }
-  return note;
+  return note + oct;
 }
 
 $(window).ready(function(){
+  canvas.init();
+  
   $('input[type=range]').on('change', function (e) {
     var type = +e.target.value;
 
