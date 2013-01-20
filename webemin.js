@@ -10,6 +10,8 @@ var webemin = {
   _context: null,
   _oscillator: null,
   _gainNode: null,
+  _delayNode: null,
+  _delayGainNode: null,
   _init: false,
   _threshold: 0,
   _last: 0,
@@ -19,9 +21,15 @@ var webemin = {
     // create new oscillator
     webemin._oscillator = webemin._context.createOscillator();
     // create new gain node
-    // which is the volume controller (i think)
     webemin._gainNode = webemin._context.createGainNode();
+    webemin._delayGainNode = webemin._context.createGainNode();
+    // create a delay node
+    webemin._delayNode = webemin._context.createDelayNode();
+    // connect it to the gain node
+    webemin._delayNode.connect(webemin._delayGainNode);
+    webemin._delayNode.delayTime.value = 0.18;
     // connect the oscillator to the gain node
+    webemin._oscillator.connect(webemin._delayNode);
     webemin._oscillator.connect(webemin._gainNode);
     // set the default frequency to oscillator
     webemin._oscillator.frequency.value = webemin.frequency;
@@ -30,8 +38,10 @@ var webemin = {
     webemin._oscillator.type = 0;
     // connect the gain node with the context
     webemin._gainNode.connect(webemin._context.destination);
+    webemin._delayGainNode.connect(webemin._context.destination);
     // set volume to 0
     webemin._gainNode.gain.value = 0; // 0 volume
+    webemin._delayGainNode.gain.value = 0;
     webemin._init = true;
   },
   start: function () {
@@ -61,6 +71,8 @@ var webemin = {
     webemin._oscillator.type = type;
   },
   setVolume: function (vol) {
+    if (vol === 1)
+      vol -= 0.15;
     webemin._gainNode.gain.value = vol;
   }
 };

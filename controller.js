@@ -78,6 +78,9 @@ $(window).ready(function(){
             init = true;
           }
 
+          if (webemin._delayGainNode.gain.value === 0)
+            webemin._delayGainNode.gain.value = 0.15;
+
           try {
             data = JSON.parse(data);
             msg = JSON.parse(data.msg);
