@@ -2,9 +2,10 @@
  * © 2013 Andreas Hermansson, a@andreaslof.se
  * © 2013 Simon Westerlund, s@simonwesterlund.se
  * */
- function lognumber(n) {
-   return (Math.log(n) - Math.log(440)) / Math.log(2) + 4.0;
- }
+function getOctave(n) {
+ return (Math.log(n) - Math.log(440)) / Math.log(2) + 3.0;
+}
+
 var webemin = {
   frequency: 440, // 440hz = A3
   type: 0, // sine
@@ -52,13 +53,9 @@ var webemin = {
     webemin._gainNode.gain.value = 0;
   },
   setFrequency: function(freq) {
-    // if (webemin._last > Math.floor(lognumber(freq)) ||
-    //     webemin._last < Math.floor(lognumber(freq))) {
-      webemin.frequency = freq;
-      webemin._last = Math.floor(lognumber(freq));
-      webemin._ocsillator.frequency.value = freq;
-      // console.log(Math.floor(webemin._last));
-    //}
+    webemin.frequency = freq;
+    webemin._last = Math.floor(getOctave(freq));
+    webemin._oscillator.frequency.value = freq;
   },
   detune: function (freq) {
     webemin.tuning = freq;

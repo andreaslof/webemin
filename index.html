@@ -3,6 +3,10 @@
   <title>webemin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    *, body, html {
+      margin: 0;
+      padding: 0;
+    }
     a {
       display: inline-block;
       float: left;
@@ -18,17 +22,28 @@
       padding: 12px;
       position: relative;
     }
+
+    canvas {
+      left: 0;
+      position: absolute;
+      top: 0;
+      z-index: -1;
+    }
   </style>
 </head>
 <body>
-  <a class="connect-host" href="#"><span>CONNECT HOST</span></a>
-  <a class="connect-ctrl" href="#"><span>CONNECT CONTROLLER</span></a>
-  <a class="play" href="#"><span>PLAY</span></a>
-  <a class="stop" href="#"><span>STOP</span></a>
-  <span class="freq"></span>
-  <input type="range" min="0" max="3" value="0">
+  <div class="controls">
+    <a class="connect-host" href="#"><span>CONNECT HOST</span></a>
+    <a class="connect-ctrl" href="#"><span>CONNECT CONTROLLER</span></a>
+    <a class="play" href="#"><span>PLAY</span></a>
+    <a class="stop" href="#"><span>STOP</span></a>
+    <span class="freq"></span>
+    <input type="range" min="0" max="3" value="0">
+  </div>
+  <canvas id="cnv"><canvas>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/canvas.js"></script>
 <script src="/client.js"></script>
 <script src="/gyro.js"></script>
 <script src="/webemin.js"></script>

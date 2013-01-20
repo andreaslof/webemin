@@ -1,9 +1,9 @@
-function lognumber(n) {
+function getOctave(n) {
   return (Math.log(n) - Math.log(440)) / Math.log(2) + 4.0;
 }
 
 function whatNote(freq) {
-  var lnote = lognumber(freq);
+  var lnote = getOctave(freq);
   var oct = Math.floor(lnote);
   var cents = 1200 * (lnote - oct);
   var offset = 50.0;
@@ -81,7 +81,7 @@ $(window).ready(function(){
           if (data.id == 1) {
             var freq = (msg.y * 10) + (32.70 - 5.0);
             webemin.setFrequency(freq);
-            freqView.html(webemin.frequency+' '+whatNote(webemin.frequency));
+            freqView.html(Math.round(webemin.frequency)+' '+whatNote(webemin.frequency));
             var detune = parseInt((msg.y + msg.z), 10); 
             webemin.detune(detune);
           }

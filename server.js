@@ -15,9 +15,12 @@ function handler (req, res) {
     case '/gyro.js':
       fs.readFile(__dirname + '/gyro.js', returnFile);
       break;
-      case '/controller.js':
-        fs.readFile(__dirname + '/controller.js', returnFile);
-        break;
+    case '/controller.js':
+      fs.readFile(__dirname + '/controller.js', returnFile);
+      break;
+    case '/canvas.js':
+      fs.readFile(__dirname + '/canvas.js', returnFile);
+      break;
     case '/client.js':
       fs.readFile(__dirname + '/client.js', returnFile);
       break;
