@@ -10,12 +10,11 @@ app.listen(8082, url);
 console.log('Running on ' + url+':'+8082);
 
 function handler (req, res) { 
-  var html = false; 
+  var html = false,
+      css = false;
   switch (req.url) {
-    case '/font-awesome.css':
-      fs.readFile(__dirname + '/font-awesome.css', returnFile);
-      break;
     case '/style.css':
+      css = true;
       fs.readFile(__dirname + '/style.css', returnFile);
       break;
     case '/gyro.js':
@@ -47,8 +46,10 @@ function handler (req, res) {
     }
 
     res.writeHead(200);
-    if (!html)
+    if (!html && !css)
       res.writeHead(200, { 'Content-Type': 'text/javascript' });
+    if (css)
+      res.writeHead(200, { 'Content-Type': 'text/css' });
     res.end(data);
   }
 }
