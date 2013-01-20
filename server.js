@@ -12,6 +12,12 @@ console.log('Running on ' + url+':'+8082);
 function handler (req, res) { 
   var html = false; 
   switch (req.url) {
+    case '/font-awesome.css':
+      fs.readFile(__dirname + '/font-awesome.css', returnFile);
+      break;
+    case '/style.css':
+      fs.readFile(__dirname + '/style.css', returnFile);
+      break;
     case '/gyro.js':
       fs.readFile(__dirname + '/gyro.js', returnFile);
       break;

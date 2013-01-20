@@ -40,6 +40,7 @@ $(window).ready(function(){
     if (webemin.isPlaying)
       webemin.setType(type);
   });
+
   $('a.connect-host, a.connect-ctrl').click(function(e){
     e.preventDefault();
     client.init('http://10.48.19.129');
@@ -79,22 +80,35 @@ $(window).ready(function(){
 
           data = JSON.parse(data);
           msg = JSON.parse(data.msg);
+
+          var freq = (msg.y * 10) + (32.70 - 5.0);
+          var vol = ((msg.z * 2) / 90);
+
+          if (Math.round(freq) < 20)
+            return;
           
-          if (data.id == 1) {
-            var freq = (msg.y * 10) + (32.70 - 5.0);
-            webemin.setFrequency(freq);
-            freqView.html(Math.round(webemin.frequency)+' '+whatNote(webemin.frequency));
-            var detune = parseInt((msg.y + msg.z), 10); 
-            webemin.detune(detune);
-          }
-          if (data.id == 2) {
-            var vol = ((msg.z*2) / 90);
-            if (vol < 0)
-              vol = 0;
-            if (vol > 1)
-              vol = 1;
-            webemin.setVolume(vol);
-          }
+          if (vol < 0)
+            vol = 0;
+          if (vol > 1)
+            vol = 1;
+
+          var r = Math.round(msg.x),
+              g = Math.round(msg.y),
+              b = Math.round(msg.z);
+
+          r = r > 255 ? 255 : r;
+          r = r < 0 ? 0 : r;
+          g = g > 255 ? 255 : g;
+          g = g < 0 ? 0 : g;
+          b = b > 255 ? 255 : b;
+          b = b < 0 ? 0 : b;
+
+
+          canvas.drawBackground(vol, [r, g, b]);
+          canvas.drawNote(whatNote(webemin.frequency));
+
+          webemin.setFrequency(freq);
+          webemin.setVolume(vol);
         };
       }
     };

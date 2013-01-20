@@ -2,41 +2,23 @@
 <head>
   <title>webemin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    *, body, html {
-      margin: 0;
-      padding: 0;
-    }
-    a {
-      display: inline-block;
-      float: left;
-      height: auto;
-      margin: 12px;
-      width: auto;
-    }
-
-    a span {
-      background: #333;
-      color: #fff;
-      display: block;
-      padding: 12px;
-      position: relative;
-    }
-
-    canvas {
-      left: 0;
-      position: absolute;
-      top: 0;
-      z-index: -1;
-    }
-  </style>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="controls">
-    <a class="connect-host" href="#"><span>CONNECT HOST</span></a>
-    <a class="connect-ctrl" href="#"><span>CONNECT CONTROLLER</span></a>
-    <a class="play" href="#"><span>PLAY</span></a>
-    <a class="stop" href="#"><span>STOP</span></a>
+    <a class="connect-host" href="#">
+      <span><i class="icon-laptop"></i> <i class="icon-desktop"></i></span>
+    </a>
+    <a class="connect-ctrl" href="#">
+      <span><i class="icon-mobile-phone"></i> <i class="icon-tablet"></i></span>
+    </a>
+    <a class="play" href="#">
+      <span><i class="icon-volume-up"></i></span>
+    </a>
+    <a class="stop" href="#">
+      <span><i class="icon-volume-off"></i></span>
+    </a>
     <span class="freq"></span>
     <input type="range" min="0" max="3" value="0">
   </div>
