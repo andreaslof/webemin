@@ -28,7 +28,7 @@ function whatNote(freq) {
       x += 2;
     }
   }
-  return note + oct;
+  return {note: note + oct, cents: cents};
 }
 
 $(window).ready(function(){
