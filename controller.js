@@ -1,3 +1,36 @@
+function lognumber(n) {
+  return (Math.log(n) - Math.log(440)) / Math.log(2) + 4.0;
+}
+
+function whatNote(freq) {
+  var lnote = lognumber(freq);
+  var oct = Math.floor(lnote);
+  var cents = 1200 * (lnote - oct);
+  var offset = 50.0;
+  var x = 2;
+  var note = '';
+  var notes = "A A#B C C#D D#E F F#G G#";
+
+  if (cents < 50)
+    note = 'A';
+  else if (cents >= 1150) {
+    note = 'A';
+    cents -= 1200;
+    oct++;
+  } else {
+    for (var i = 0; i < 11; i++) {
+      if (cents >= offset && cents < (offset + 100)) {
+        note = notes[x] + notes[x + 1];
+        cents -= i * 100;
+        break;
+      }
+      offset += 200;
+      x += 2;
+    }
+  }
+  return note;
+}
+
 $(window).ready(function(){
   $('a.connect-host, a.connect-ctrl').click(function(e){
     e.preventDefault();
@@ -27,6 +60,7 @@ $(window).ready(function(){
         webemin.init();
         webemin.start();
         var init = false;
+        var freqView = $('.freq');
         client.gotValues = function(data) {
           if (!init) {
             webemin.setVolume(1);
@@ -35,8 +69,11 @@ $(window).ready(function(){
           data = JSON.parse(data);
           msg = JSON.parse(data.msg);
           
-          if (data.id == 1)
-            webemin.setFrequency((msg.y * 10) + 200);
+          if (data.id == 1) {
+            var freq = (msg.y * 10) + (32.70 - 5.0);
+            webemin.setFrequency(freq);
+            freqView.html(webemin.frequency+' '+whatNote(webemin.frequency));
+          }
           if (data.id == 2) {
             var vol = ((msg.z*2) / 90);
             if (vol < 0)

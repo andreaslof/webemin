@@ -5,7 +5,9 @@ var app = require('http').createServer(handler),
     fs = require('fs'),
     connections = 0;
 
-app.listen(8082, '10.48.18.64');
+var url = '10.48.18.64';
+app.listen(8082, url);
+console.log('Running on ' + url+':'+8082);
 
 function handler (req, res) { 
   var html = false; 

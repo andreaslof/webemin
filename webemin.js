@@ -2,6 +2,9 @@
  * © 2013 Andreas Hermansson, a@andreaslof.se
  * © 2013 Simon Westerlund, s@simonwesterlund.se
  * */
+ function lognumber(n) {
+   return (Math.log(n) - Math.log(440)) / Math.log(2) + 4.0;
+ }
 var webemin = {
   frequency: 440, // default
   type: 0, // sine
@@ -10,6 +13,8 @@ var webemin = {
   _ocsillator: null,
   _gainNode: null,
   _init: false,
+  _threshold: 0,
+  _last: 0,
   init: function() {
     // create new context
     webemin._context = new webkitAudioContext();
@@ -48,8 +53,13 @@ var webemin = {
     webemin._gainNode.gain.value = 0;
   },
   setFrequency: function(freq) {
-    webemin.frequency = freq;
-    webemin._ocsillator.frequency.value = freq;
+    // if (webemin._last > Math.floor(lognumber(freq)) ||
+    //     webemin._last < Math.floor(lognumber(freq))) {
+      webemin.frequency = freq;
+      webemin._last = Math.floor(lognumber(freq));
+      webemin._ocsillator.frequency.value = freq;
+      // console.log(Math.floor(webemin._last));
+    //}
   },
   setType: function(type) {
     webemin._ocsillator.type = type;
