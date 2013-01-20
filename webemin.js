@@ -2,9 +2,6 @@
  * © 2013 Andreas Hermansson, a@andreaslof.se
  * © 2013 Simon Westerlund, s@simonwesterlund.se
  * */
-function getOctave(n) {
- return (Math.log(n) - Math.log(440)) / Math.log(2) + 3.0;
-}
 
 var webemin = {
   frequency: 440, // 440hz = A3
@@ -53,9 +50,8 @@ var webemin = {
     webemin._gainNode.gain.value = 0;
   },
   setFrequency: function(freq) {
-    webemin.frequency = freq;
-    webemin._last = Math.floor(getOctave(freq));
-    webemin._oscillator.frequency.value = freq;
+      webemin.frequency = freq;
+      webemin._oscillator.frequency.value = freq;
   },
   detune: function (freq) {
     webemin.tuning = freq;
