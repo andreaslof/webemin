@@ -32,9 +32,15 @@ function whatNote(freq) {
 }
 
 $(window).ready(function(){
+  $('input[type=range]').on('change', function (e) {
+    var type = +e.target.value;
+
+    if (webemin.isPlaying)
+      webemin.setType(type);
+  });
   $('a.connect-host, a.connect-ctrl').click(function(e){
     e.preventDefault();
-    client.init('http://10.48.18.64');
+    client.init('http://10.48.19.129');
     if ($(this)[0] === $('a.connect-host')[0])
       client.connectHost();
     else
@@ -59,6 +65,8 @@ $(window).ready(function(){
         });
         webemin.init();
         webemin.start();
+        webemin.setVolume(0);
+
         var init = false;
         var freqView = $('.freq');
         client.gotValues = function(data) {
@@ -66,6 +74,7 @@ $(window).ready(function(){
             webemin.setVolume(1);
             init = true;
           }
+
           data = JSON.parse(data);
           msg = JSON.parse(data.msg);
           
@@ -73,6 +82,8 @@ $(window).ready(function(){
             var freq = (msg.y * 10) + (32.70 - 5.0);
             webemin.setFrequency(freq);
             freqView.html(webemin.frequency+' '+whatNote(webemin.frequency));
+            var detune = parseInt((msg.y + msg.z), 10); 
+            webemin.detune(detune);
           }
           if (data.id == 2) {
             var vol = ((msg.z*2) / 90);
