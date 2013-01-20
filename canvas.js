@@ -14,7 +14,9 @@ var canvas = {
 
     _.ctx = _.cnv.getContext('2d');
     _.ctx.globalCompositeOperation = "xor";
-    _.ctx.font = "bold 240px sans-serif";
+    _.ctx.font = "bold 100px sans-serif";
+    _.drawNote('webemin');
+    _.drawNote('(sort of a theremin)', undefined, 0, 150);
   },
   drawBackground: function (alpha, colors) {
     var _ = canvas,
@@ -29,16 +31,16 @@ var canvas = {
     _.ctx.fillStyle = fillStyle;
     _.ctx.fillRect(0, 0, _.width, _.height);
   },
-  drawNote: function (note, colors) {
+  drawNote: function (note, colors, x, y) {
     var _ = canvas,
-        colors = colors || [0,0,0];
-        cw = (_.cnv.width - 240) / 2,
-        ch = (_.cnv.height - 240) / 2;
+        colors = colors || [0,0,0],
+        x = x || 0,
+        y = y || 50;
     
     _.ctx.fillStyle = 'rgb(' + colors.join(',') + ')';
     _.ctx.textAlign = 'left';
     _.ctx.textBaseline = 'top';
-    _.ctx.fillText(note, 0, 50);
+    _.ctx.fillText(note, x, y);
   }
 
 }
