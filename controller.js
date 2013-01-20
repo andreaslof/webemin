@@ -78,21 +78,17 @@ $(window).ready(function(){
           data = JSON.parse(data);
           msg = JSON.parse(data.msg);
           
-          if (data.id == 1) {
             var freq = (msg.y * 10) + (32.70 - 5.0);
             webemin.setFrequency(freq);
             freqView.html(Math.round(webemin.frequency)+' '+whatNote(webemin.frequency));
             var detune = parseInt((msg.y + msg.z), 10); 
             webemin.detune(detune);
-          }
-          if (data.id == 2) {
             var vol = ((msg.z*2) / 90);
             if (vol < 0)
               vol = 0;
             if (vol > 1)
               vol = 1;
             webemin.setVolume(vol);
-          }
         };
       }
     };
