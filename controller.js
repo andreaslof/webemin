@@ -87,17 +87,13 @@ $(window).ready(function(){
           } catch (e) {
             return;
           }
-
-          var freq = (msg.y * 10) + (32.70 - 5.0);
-          var vol = ((msg.z * 2) / 90);
-
-          if (Math.round(freq) < 20)
-            return;
           
           var note = whatNote(webemin.frequency);
           var freq = (msg.y * 10) + (32.70 - 5.0);
-          var detune = parseInt((msg.y + msg.z), 10); 
           var vol = ((msg.z*2) / 90);
+
+          if (Math.round(freq) < 20)
+            return;
 
           if (vol < 0)
             vol = 0;
