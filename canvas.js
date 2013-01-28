@@ -45,8 +45,7 @@ var canvas = {
   bend: function(freq){
     var _ = canvas,
         margin = 20;
-    //_.ctx.clearRect(0,0, _.width, _.height);
-    
+
     _.ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
     _.ctx.beginPath();
     _.ctx.lineWidth = 10;
